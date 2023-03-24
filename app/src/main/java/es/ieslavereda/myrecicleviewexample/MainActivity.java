@@ -1,10 +1,15 @@
 package es.ieslavereda.myrecicleviewexample;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+
+import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +27,41 @@ public class MainActivity extends AppCompatActivity {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+
+                int posTarget = target.getAdapterPosition();
+                Usuario u = UsuarioRepository.getInstance().getUsuario(viewHolder.getAdapterPosition());
+                UsuarioRepository.getInstance().remove(u);
+                UsuarioRepository.getInstance().add(posTarget,u);
+
+                recyclerView.getAdapter().notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+                return true;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+
+                Usuario u = UsuarioRepository.getInstance().getUsuario(position);
+                UsuarioRepository.getInstance().remove(u);
+                myRecyclerViewAdapter.notifyItemRemoved(position);
+
+                Snackbar.make(recyclerView, "Deleted " + u.getNombre(), Snackbar.LENGTH_LONG)
+                        .setAction("Undo", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                UsuarioRepository.getInstance().add(position, u);
+                                myRecyclerViewAdapter.notifyItemInserted(position);
+                            }
+                        })
+                        .show();
+            }
+        });
+
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
     }
 }

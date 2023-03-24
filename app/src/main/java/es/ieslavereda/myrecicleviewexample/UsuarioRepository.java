@@ -38,4 +38,12 @@ public class UsuarioRepository {
     public int getSize(){
         return usuarios.size();
     }
+
+    public void remove(Usuario u){
+        usuarios.remove(u);
+    }
+
+    public void add(int position, Usuario u){
+        usuarios.add(position, u);
+    }
 }

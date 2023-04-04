@@ -1,17 +1,30 @@
 package es.ieslavereda.myrecicleviewexample;
 
-public class Usuario {
+import java.io.Serializable;
+import java.util.Comparator;
 
+public class Usuario implements Serializable {
+
+    public static final Comparator<Usuario> SORT_BY_NAME = new Comparator<Usuario>() {
+        @Override
+        public int compare(Usuario u, Usuario u1) {
+            return (u.getNombre().compareToIgnoreCase(u1.getNombre())+(u.getApellidos().compareToIgnoreCase(u1.getApellidos())));
+        }
+    };
+    public static final Comparator<Usuario> SORT_BY_PROFESION =  new Comparator<Usuario>() {
+        @Override
+        public int compare(Usuario u, Usuario u1) {
+            return (u.getIdprofesion()- u1.getIdprofesion())+(u.getNombre().compareToIgnoreCase(u1.getNombre())+(u.getApellidos().compareToIgnoreCase(u1.getApellidos())));
+        }
+    };
     private String nombre;
     private String apellidos;
-    private String oficio;
-    private int imagen;
+    private int idprofesion;
 
-    public Usuario(String nombre, String apellidos, String oficio, int imagen) {
+    public Usuario(String nombre, String apellidos, int idprofesion) {
         this.nombre = nombre;
         this.apellidos = apellidos;
-        this.oficio = oficio;
-        this.imagen = imagen;
+        this.idprofesion = idprofesion;
     }
 
     public String getNombre() {
@@ -30,19 +43,11 @@ public class Usuario {
         this.apellidos = apellidos;
     }
 
-    public String getOficio() {
-        return oficio;
+    public int getIdprofesion() {
+        return idprofesion;
     }
 
-    public void setOficio(String oficio) {
-        this.oficio = oficio;
-    }
-
-    public int getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(int imagen) {
-        this.imagen = imagen;
+    public void setIdprofesion(int idprofesion) {
+        this.idprofesion = idprofesion;
     }
 }

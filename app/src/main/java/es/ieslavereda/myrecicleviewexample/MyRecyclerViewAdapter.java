@@ -32,8 +32,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         Usuario u = repository.getUsuario(position);
 
         holder.nombre.setText(u.getApellidos()+", " +u.getNombre());
-        holder.oficio.setText(u.getOficio());
-        holder.imagen.setImageResource(u.getImagen());
+        holder.oficio.setText(ProfesionRepository.getInstance().getProfesionByImage(u.getIdprofesion()).getNombre());
+        holder.imagen.setImageResource(ProfesionRepository.getInstance().getProfesionByImage(u.getIdprofesion()).getImagen());
 
     }
 

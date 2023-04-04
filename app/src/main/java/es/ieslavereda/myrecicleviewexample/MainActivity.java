@@ -8,30 +8,44 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
+    private FloatingActionButton addUser;
+    private Switch aSwitchName;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         recyclerView = findViewById(R.id.recycler);
+        addUser = findViewById(R.id.addUser);
+        aSwitchName = findViewById(R.id.switchNombre);
+
+
+
 
         MyRecyclerViewAdapter myRecyclerViewAdapter = new MyRecyclerViewAdapter(this);
         recyclerView.setAdapter(myRecyclerViewAdapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
+
+
 
 
         ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
@@ -41,11 +55,17 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(this, "Cancelado por el usuario", Toast.LENGTH_LONG).show();
                     else if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent data = result.getData();
-                        Usuario usuario = new Usuario(data.getExtras().getString("Nombre"),data.getExtras().getString("Apellido"),data.getExtras().getString("Nombre"),R.mipmap.ic_actor);
-                        UsuarioRepository.getInstance().add(UsuarioRepository.getInstance().getSize(),);
-                        Toast.makeText(this, "Nuevo, aceptado por " + name , Toast.LENGTH_LONG).show();
+                        Usuario usuario = (Usuario) data.getExtras().getSerializable("usuario");
+                        UsuarioRepository.getInstance().add(usuario);
+                        myRecyclerViewAdapter.notifyDataSetChanged();
+                        Toast.makeText(this, "Nuevo: " + usuario.getNombre() , Toast.LENGTH_LONG).show();
                     }
                 });
+
+        addUser.setOnClickListener(v->{
+            Intent i = new Intent(this,FormularioActivity.class);
+            someActivityResultLauncher.launch(i);
+        });
 
 
 
@@ -83,6 +103,18 @@ public class MainActivity extends AppCompatActivity {
         });
 
         itemTouchHelper.attachToRecyclerView(recyclerView);
+        aSwitchName.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b) {
+                    aSwitchName.setText("Profesion");
+                    UsuarioRepository.getInstance().sort(Usuario.SORT_BY_PROFESION);
+                }else {
+                    aSwitchName.setText("Nombre");
+                    UsuarioRepository.getInstance().sort(Usuario.SORT_BY_NAME);
+                }
+            }
+        });
 
     }
 }

@@ -10,6 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import es.ieslavereda.myrecicleviewexample.model.Profesion;
+import es.ieslavereda.myrecicleviewexample.model.ProfesionRepository;
+import es.ieslavereda.myrecicleviewexample.model.Usuario;
+
 public class FormularioActivity extends AppCompatActivity {
     private Button aceptar;
     private Button cancelar;

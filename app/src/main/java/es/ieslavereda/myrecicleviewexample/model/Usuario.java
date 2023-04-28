@@ -1,4 +1,4 @@
-package es.ieslavereda.myrecicleviewexample;
+package es.ieslavereda.myrecicleviewexample.model;
 
 import java.io.Serializable;
 import java.util.Comparator;

@@ -3,7 +3,6 @@ package es.ieslavereda.myrecicleviewexample;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +19,12 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-public class MainActivity extends AppCompatActivity {
+import es.ieslavereda.myrecicleviewexample.base.BaseActivity;
+import es.ieslavereda.myrecicleviewexample.base.CallInterface;
+import es.ieslavereda.myrecicleviewexample.model.Usuario;
+import es.ieslavereda.myrecicleviewexample.model.UsuarioRepository;
+
+public class MainActivity extends BaseActivity implements CallInterface {
 
     private RecyclerView recyclerView;
     private FloatingActionButton addUser;
@@ -36,16 +40,11 @@ public class MainActivity extends AppCompatActivity {
         addUser = findViewById(R.id.addUser);
         aSwitchName = findViewById(R.id.switchNombre);
 
-
-
-
         MyRecyclerViewAdapter myRecyclerViewAdapter = new MyRecyclerViewAdapter(this);
         recyclerView.setAdapter(myRecyclerViewAdapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-
-
 
 
         ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
@@ -115,6 +114,18 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+
+    }
+
+    @Override
+    public void doInBackground() {
+
+    }
+
+    @Override
+    public void doInUI() {
 
     }
 }

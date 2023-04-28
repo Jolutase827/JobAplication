@@ -1,8 +1,10 @@
-package es.ieslavereda.myrecicleviewexample;
+package es.ieslavereda.myrecicleviewexample.model;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import es.ieslavereda.myrecicleviewexample.R;
 
 public class ProfesionRepository {
     private List<Profesion> profesions;

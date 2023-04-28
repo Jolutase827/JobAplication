@@ -10,6 +10,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import es.ieslavereda.myrecicleviewexample.model.ProfesionRepository;
+import es.ieslavereda.myrecicleviewexample.model.Usuario;
+import es.ieslavereda.myrecicleviewexample.model.UsuarioRepository;
+
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
 
     private UsuarioRepository repository;
